@@ -2,6 +2,7 @@ from cfg import CFG
 from dfa import DFA
 from primitives import Term, NTerm
 import copy
+from typing import List
 
 class Triplet():
   def __init__(self, p: NTerm, n_term: NTerm, q: NTerm):
@@ -19,7 +20,7 @@ class Triplet():
     return f"< {self.p}, {self.n_term}, {self.q}>"
 
 class TripletHolder:
-  def __init__(self, left: Triplet, right: list[Triplet]):
+  def __init__(self, left: Triplet, right: List[Triplet]):
     self.left = left
     self.right = right
 

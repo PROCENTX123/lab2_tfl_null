@@ -1,5 +1,5 @@
 import re
-from typing import Union
+from typing import Union, List
 
 
 def _strip_brackets(s):
@@ -45,7 +45,7 @@ class Term:
 
 class Rule:
 
-  def __init__(self, left: NTerm, right: list[Union[NTerm, Term]]):
+  def __init__(self, left: NTerm, right: List[Union[NTerm, Term]]):
     self.left = left
     self.right = right
 

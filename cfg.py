@@ -2,6 +2,7 @@ from primitives import NTerm, Term, Rule, Edge, Epsilon
 from collections import defaultdict
 import itertools
 import copy
+from typing import List
 
 
 def print_rules(rules):
@@ -12,7 +13,7 @@ def print_rules(rules):
 
 class CFG:
 
-  def __init__(self, rules: list[Rule]):
+  def __init__(self, rules: List[Rule]):
     self.rules = rules
     print("Assignment")
     print_rules(self.rules)

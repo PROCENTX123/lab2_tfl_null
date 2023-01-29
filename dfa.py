@@ -1,11 +1,11 @@
 from primitives import NTerm, Term, Rule, Edge
-
+from typing import List
 
 class DFA:
   start_state = "[S]"
   final_state = "[F0]"
 
-  def __init__(self, edges: list[Edge]):
+  def __init__(self, edges: List[Edge]):
     self.edges = edges
     self.states = set([edge._from for edge in self.edges])
 

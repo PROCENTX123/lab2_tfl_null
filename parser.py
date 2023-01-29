@@ -1,3 +1,4 @@
+from typing import List
 """
 CFG
 Context-free grammar:
@@ -46,7 +47,7 @@ def parse(input, is_cfg=False) -> Union[CFG, DFA]:
     return parse_dfa(lines)
 
 
-def parse_cfg(input: list[str]):
+def parse_cfg(input: List[str]):
   rules = []
   for rule_str in input:
     if rule_str:
@@ -69,7 +70,7 @@ def parse_cfg(input: list[str]):
   return CFG(rules)
 
 
-def parse_dfa(input: list[str]):
+def parse_dfa(input: List[str]):
   edges = set()
   for rule_str in input:
     if rule_str:
