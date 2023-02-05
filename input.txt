@@ -1,4 +1,4 @@
-context-free grammar:
+Context-free grammar:
 [S] -> [Ga][T]|[S][S]
 [T] -> b|[S][Gb]
 [Ga] -> a
@@ -6,4 +6,4 @@ context-free grammar:
 
 Regular grammar:
 [S] -> a[S]|b[F0]
-[F0] -> b
+[F0] -> b|b[F0]

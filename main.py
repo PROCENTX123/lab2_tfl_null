@@ -1,13 +1,13 @@
 from parser import parse_cfg, parse
 from intersection import make_intersection
 # fixme CFG with double states e.g. [D][D]
-
-input_cfg = """
-[S] -> [Ga][T]|[S][S]
-[T] -> b|[S][Gb]
-[Ga] -> a
-[Gb] -> b
-"""
+#
+# input_cfg = """
+# [S] -> [Ga][T]|[S][S]
+# [T] -> b|[S][Gb]
+# [Ga] -> a
+# [Gb] -> b
+# """
 
 # output_cfg = """
 # [S] -> [Ga][T]
@@ -18,10 +18,10 @@ input_cfg = """
 # [Gb] -> b
 # """.strip()
 
-input_dfa = """
-[S] -> a[S]|b[F0]
-[F0] -> b|b[F0]
-"""
+# input_dfa = """
+# [S] -> a[S]|b[F0]
+# [F0] -> b|b[F0]
+# """
 
 # test_dfa = parse(input_dfa, False)
 # print("TEST Output: {}\n".format(str(test_dfa)),
@@ -121,34 +121,34 @@ input_dfa = """
 
 
 # test tracking
-input_cfg4 = """
-[S] -> [A][B][C][S]
-[S] -> [S][D]
-[A] -> ε
-[B] -> [A][C]
-[C] -> ε
-[D] -> d
-"""
+# input_cfg4 = """
+# [S] -> [A][B][C][S]
+# [S] -> [S][D]
+# [A] -> ε
+# [B] -> [A][C]
+# [C] -> ε
+# [D] -> d
+# """
 
 # test for all() vs any()
-input_cfg5 = """
-[S] -> [A][B][C]
-[S] -> [D][S]
-[A] -> ε
-[B] -> [A][C]
-[C] -> c
-[D] -> d
-"""
+# input_cfg5 = """
+# [S] -> [A][B][C]
+# [S] -> [D][S]
+# [A] -> ε
+# [B] -> [A][C]
+# [C] -> c
+# [D] -> d
+# """
 
 # test tracking
-input_cfg6 = """
-[S] -> [A][B][C][S]
-[S] -> [S][D]
-[A] -> ε
-[B] -> [A][C]
-[C] -> ε
-[D] -> d
-"""
+# input_cfg6 = """
+# [S] -> [A][B][C][S]
+# [S] -> [S][D]
+# [A] -> ε
+# [B] -> [A][C]
+# [C] -> ε
+# [D] -> d
+# """
 
 
 # test_cfg = parse(input_cfg6, True)
@@ -159,19 +159,19 @@ input_cfg6 = """
 #   print(k, v)
 # # print(parents)
 # print(test_cfg.NTerm_eps_generating(children))
-
-input_cfg7 = """
-[S] -> [A][B]d
-[A] -> a|ε
-[B] -> b
-"""
-
-input_cfg8 = """
-[S] -> [A][B][C]d
-[A] -> a|ε
-[B] -> [A][C]
-[C] -> c|ε
-"""
+#
+# input_cfg7 = """
+# [S] -> [A][B]d
+# [A] -> a|ε
+# [B] -> b
+# """
+#
+# input_cfg8 = """
+# [S] -> [A][B][C]d
+# [A] -> a|ε
+# [B] -> [A][C]
+# [C] -> c|ε
+# """
 
 # test_cfg = parse(input_cfg8, True)
 # parents, children = test_cfg.build_tree()
@@ -212,24 +212,24 @@ input_cfg8 = """
 #   print(i)
 
 #test useles_rule
-input_cfg10= """
-[S] -> [A]c
-[A] -> [S][D]
-[D] -> a[D]
-[A] -> a
-"""
+# input_cfg10= """
+# [S] -> [A]c
+# [A] -> [S][D]
+# [D] -> a[D]
+# [A] -> a
+# """
 # test_cfg = parse(input_cfg10, True)
 # norm_set = test_cfg.del_unused_symbols()
 # print(norm_set)
 
-
-input_cfg11 = """
-[S] -> a[S1]
-[X] -> a[Y]|b[Y]
-[Y] -> a[Y]|b[Y]|cc
-[S1] -> [X][S2]|y[X]|y
-[S2] -> y[X]|y
-"""
+#
+# input_cfg11 = """
+# [S] -> a[S1]
+# [X] -> a[Y]|b[Y]
+# [Y] -> a[Y]|b[Y]|cc
+# [S1] -> [X][S2]|y[X]|y
+# [S2] -> y[X]|y
+# """
 
 # test_cfg = parse(input_cfg11, True)
 # for r in test_cfg.replace_terms():
@@ -246,33 +246,52 @@ input_cfg11 = """
 # print(lst)
 
 
-input_final_cfg = """
-[S] -> a[X]b[X]|a[Z]
-[X] -> a[Y]|b[Y]|ε
-[Y] -> [X]|cc
-[Z] -> [Z][X]
-"""
+# input_final_cfg = """
+# [S] -> a[X]b[X]|a[Z]
+# [X] -> a[Y]|b[Y]|ε
+# [Y] -> [X]|cc
+# [Z] -> [Z][X]
+# """
 
 # test_cfg = parse(input_final_cfg, True)
 
+input_cfg = ''
+input_dfa = ''
+
+with open('input.txt') as f:
+  flag_dfa = False
+  header = 0
+  for line in f:
+    if ':' in line:
+      header += 1
+      continue
+    if line.isspace() == True:
+      continue
+    if header == 1:
+      input_cfg = input_cfg + line
+    else:
+      input_dfa = input_dfa + line
+
+
+
 
 #FINAL TEST
-input_cfg = """
-[S] -> [Ga][T]|[S][S]
-[T] -> b|[S][Gb]
-[Ga] -> a
-[Gb] -> b
-"""
+# input_cfg = """
+# [S] -> [Ga][T]|[S][S]
+# [T] -> b|[S][Gb]
+# [Ga] -> a
+# [Gb] -> b
+# """
 
 
-input_dfa = """
-[S] -> a[S]|b[F0]
-[F0] -> b|b[F0]
-"""
+# input_dfa = """
+# [S] -> a[S]|b[F0]
+# [F0] -> b|b[F0]
+# """
 
 test_dfa = parse(input_dfa, False)
-print("TEST Output: {}\n".format(str(test_dfa)),
-      "CORRECT Output: {}\n".format(input_dfa))
+# print("TEST Output: {}\n".format(str(test_dfa)),
+#       "CORRECT Output: {}\n".format(input_dfa))
 
 test_cfg = parse(input_cfg, True)
 

@@ -15,21 +15,21 @@ class CFG:
 
   def __init__(self, rules: List[Rule]):
     self.rules = rules
-    print("Assignment")
-    print_rules(self.rules)
+    # print("Assignment")
+    # print_rules(self.rules)
 
     split_long_rules = []
     for r in self.rules:
       long_ = self.split_long_rule(r)
       split_long_rules.extend(long_)
-    print("split_long_rules")
-    print_rules(split_long_rules)
+    # print("split_long_rules")
+    # print_rules(split_long_rules)
     # print_rules(len(split_long_rules))
 
     # raise
     no_long_rules = self.remove_long_rule(split_long_rules)
-    print_rules(no_long_rules)
-    print("no_long_rules")
+    # print_rules(no_long_rules)
+    # print("no_long_rules")
 
     parents, children = self.build_tree(no_long_rules)
     eps_gen_nterms = self.NTerm_eps_generating(children)
@@ -37,14 +37,14 @@ class CFG:
     # print(eps_gen_nterms)
     no_eps_rules = self.construct_all_combinations(eps_gen_nterms,
                                                    no_long_rules)
-    print_rules(no_eps_rules)
-    print("no_eps_rule")
+    # print_rules(no_eps_rules)
+    # print("no_eps_rule")
 
     parents, children = self.build_tree(no_eps_rules)
     # print(children)
     chain_rules = self.make_chain(children, no_eps_rules)
-    print_rules(chain_rules)
-    print("no_chain_rule")
+    # print_rules(chain_rules)
+    # print("no_chain_rule")
     # chain_rules = [
     #   Rule(NTerm('[S]'), [Term('a'), NTerm('[S1]')]),
     #   Rule(NTerm('[S]'), [Term('a'), NTerm('[Z]')]),
@@ -62,12 +62,12 @@ class CFG:
     # ]
 
     no_unused_rules = self.del_unused_symbols(chain_rules)
-    print_rules(no_unused_rules)
-    print("no_unused_rules")
+    # print_rules(no_unused_rules)
+    # print("no_unused_rules")
 
     replacement_rules = self.replace_terms(no_unused_rules)
-    print_rules(replacement_rules)
-    print("Done")
+    # print_rules(replacement_rules)
+    # print("Done")
 
   def get_nterm(self, rules):
     list_nterm = set()
@@ -172,6 +172,7 @@ class CFG:
                 c_.append(right[i])
               del c[0]
           if c_:
+
             tails.append(c_)
         temp_ = []
         for tail in tails:
