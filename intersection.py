@@ -48,8 +48,31 @@ class Intersection():
   def __repr__(self):
     return f"< {self._from}, {self.n_term}, {self._to} > -> {self.term} \n"
 
+# def check_inter_triplets(triplet, inter_lst):
+#   check = any([
+#     (not isinstance(triplet.right[0], Term) and triplet.right[0] != i.left)
+#     or
+#     (not isinstance(triplet.right[1], Term) and triplet.right[1] != i.left)
+#     for i in inter_lst
+#   ])
+#
+#   return check
+
+# def check_inter_triplets(triplet, inter_lst):
+#   triplet_0, triplet_1 = triplet[0], triplet[1]
+#   found_0 = False
+#   for i in inter_lst:
+#     if i.left == triplet_0:
+#       found_0 = True
+#   found_1 = False
+#   for i in inter_lst:
+#     if i.left == triplet_1:
+#       found_1 = True
+#
+#   return not (found_0 and found_1)
+
 def check_inter_triplets(triplet, inter_lst):
-  return any([triplet.right[0] != i.left or triplet.right[0] != i.left   for i in inter_lst])
+  return any([triplet.right[0] != i.left or triplet.right[0] != i.left for i in inter_lst])
 
 
 
@@ -100,7 +123,31 @@ def filter_intersection(inter, triplets):
       if i.left in t.right:
         res_inter.add(i)
   return res_inter
-  
+
+def resolve_inter(inter, triplets_holders):
+  result = []
+  inter_to_resolve = dict()
+  triplets_holders = list(triplets_holders)
+  for i in inter:
+    found = False
+    for t_h in triplets_holders:
+      if t_h.left == i.left:
+        found = True
+        break
+    if not found:
+      inter_to_resolve[i.left] = i.term
+  for i in range(len(triplets_holders)):
+    temp = []
+    t_h_curr = triplets_holders[i]
+    for triplet in t_h_curr.right:
+      if triplet in inter_to_resolve:
+        temp.append(inter_to_resolve[triplet])
+      else:
+        temp.append(triplet)
+    result.append(TripletHolder(t_h_curr.left, temp))
+  return result
+
+
 # pseudocod
 def first_check(triplets, inter, reachable_edges):
   inter_lst = list(inter)
@@ -122,10 +169,10 @@ def first_check(triplets, inter, reachable_edges):
       if not (check_inter_triplets(triplet, inter_lst)):
         filtered_triplets_copy.remove(triplet)
         changed = True
-      if not (check_existing_triplets(triplet, filtered_triplets, inter_lst)):
+      elif not (check_existing_triplets(triplet, filtered_triplets, inter_lst)):
         filtered_triplets_copy.remove(triplet)
         changed = True
-      if not is_valid_duplicate(triplet, filtered_triplets, inter_lst):
+      elif not is_valid_duplicate(triplet, filtered_triplets, inter_lst):
         filtered_triplets_copy.remove(triplet)
         changed = True
     
@@ -193,4 +240,8 @@ def make_intersection(cfg: CFG, dfa: DFA):
               
   triplets = first_check(triplets, inter, find_transitions(get_reachable_edges(dfa)))
   inter = filter_intersection(inter, triplets)
+  triplets = set(resolve_inter(inter, triplets))
   return triplets | inter
+
+
+# < [S], [S], [B]> -> < [S], [Ga], [S]> < [S], [T], [B]>
