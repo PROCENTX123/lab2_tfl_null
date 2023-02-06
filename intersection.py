@@ -48,6 +48,11 @@ class Intersection():
   def __repr__(self):
     return f"< {self._from}, {self.n_term}, {self._to} > -> {self.term} \n"
 
+def check_inter_triplets(triplet, inter_lst):
+  return any([triplet.right[0] != i.left or triplet.right[0] != i.left   for i in inter_lst])
+
+
+
 def check_existing_triplets(triplet, triplets, inter):
   triplets = list(triplets)
   total_count = len(triplets) + len(inter)
@@ -114,6 +119,9 @@ def first_check(triplets, inter, reachable_edges):
     filtered_triplets = copy.deepcopy(filtered_triplets_copy)
     # print(f"Left triplets: {len(filtered_triplets)}")
     for triplet in filtered_triplets:
+      if not (check_inter_triplets(triplet, inter_lst)):
+        filtered_triplets_copy.remove(triplet)
+        changed = True
       if not (check_existing_triplets(triplet, filtered_triplets, inter_lst)):
         filtered_triplets_copy.remove(triplet)
         changed = True
@@ -123,6 +131,8 @@ def first_check(triplets, inter, reachable_edges):
     
     
   return filtered_triplets
+
+
 
 def find_transitions(edges):
     def dfs(start, vertex, graph, visited, transitions):
