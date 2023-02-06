@@ -66,6 +66,7 @@ class CFG:
     # print("no_unused_rules")
 
     replacement_rules = self.replace_terms(no_unused_rules)
+    self.rules = replacement_rules
     # print_rules(replacement_rules)
     # print("Done")
 

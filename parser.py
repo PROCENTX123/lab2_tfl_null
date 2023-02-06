@@ -81,11 +81,16 @@ def parse_dfa(input: List[str]):
       for r in _split_alt(right):
         r = r.strip()
         if not left_nterm.is_final():
-          front, back = r.split('[')
-          term_symbols = [Term(n) for n in front]
-          right_nterm = NTerm('[' + back)
-          for t in term_symbols:
-            edges.add(Edge(left_nterm, right_nterm, t))
+          if '[' in r:
+            front, back = r.split('[')
+            term_symbols = [Term(n) for n in front]
+            right_nterm = NTerm('[' + back)
+            for t in term_symbols:
+              edges.add(Edge(left_nterm, right_nterm, t))
+          else:
+            term_symbols = [Term(n) for n in r]
+            for t in term_symbols:
+              edges.add(Edge(left_nterm, NTerm("[F0]"), t))
         else:
           # print(r)
           terms_nterms = split_terms_and_nterms(r)

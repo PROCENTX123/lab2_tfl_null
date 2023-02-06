@@ -62,6 +62,7 @@ def check_existing_triplets(triplet, triplets, inter):
       break
   return right_found and left_found
 
+
 def get_reachable_edges(dfa):
   return [
     (e._from, e._to)
@@ -70,7 +71,8 @@ def get_reachable_edges(dfa):
 
 def is_valid_duplicate(triplet, truplets, inter):
   if triplet.left == triplet.right[0] == triplet.right[1]:
-    total_set = truplets | set(inter)
+    # fixme | set(iter)
+    total_set = truplets #| set(inter)
     for t in total_set:
       if t.left == triplet.left and not (t.right == triplet.right):
         return True
@@ -122,6 +124,32 @@ def first_check(triplets, inter, reachable_edges):
     
   return filtered_triplets
 
+def find_transitions(edges):
+    def dfs(start, vertex, graph, visited, transitions):
+        visited.add(start)
+        # print(start, vertex)
+        for neighbor in graph.get(vertex, []):
+          transitions.add((start, neighbor))
+          if neighbor not in visited:
+              transitions.add((vertex, neighbor))
+              dfs(start, neighbor, graph, visited, transitions)
+
+    graph = {}
+    edges_removed, edges_left = [e for e in edges if e[0] == e[1]], [e for e in edges if e[0] != e[1]]
+    for start, end in edges_left:
+        if start not in graph:
+            graph[start] = []
+        graph[start].append(end)
+
+    visited = set()
+    transitions = set()
+    for vertex in graph:
+        visited = set()
+        dfs(vertex, vertex, graph, visited, transitions)
+    edges_removed = set(edges_removed)
+
+    return transitions | edges_removed
+
 def make_intersection(cfg: CFG, dfa: DFA):
   inter = set()
   composite_rules = set()
@@ -153,6 +181,6 @@ def make_intersection(cfg: CFG, dfa: DFA):
               right2_triplet = Triplet(z, rule.right[1], q)
               triplets.add(TripletHolder(left_triplet, [right1_triplet, right2_triplet]))
               
-  triplets = first_check(triplets, inter, get_reachable_edges(dfa))
+  triplets = first_check(triplets, inter, find_transitions(get_reachable_edges(dfa)))
   inter = filter_intersection(inter, triplets)
   return triplets | inter

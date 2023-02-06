@@ -223,16 +223,18 @@ from intersection import make_intersection
 # print(norm_set)
 
 #
-# input_cfg11 = """
+input_cfg11 = """
+[S] -> a|a[S]
+"""
 # [S] -> a[S1]
 # [X] -> a[Y]|b[Y]
 # [Y] -> a[Y]|b[Y]|cc
 # [S1] -> [X][S2]|y[X]|y
 # [S2] -> y[X]|y
-# """
+
 
 # test_cfg = parse(input_cfg11, True)
-# for r in test_cfg.replace_terms():
+# for r in test_cfg.replace_terms(test_cfg.rules):
 #   print(r)
 # 1 000 1
 # 1 100 1
@@ -271,7 +273,6 @@ with open('input.txt') as f:
       input_cfg = input_cfg + line
     else:
       input_dfa = input_dfa + line
-
 
 
 

@@ -7,7 +7,12 @@ class DFA:
 
   def __init__(self, edges: List[Edge]):
     self.edges = edges
-    self.states = set([edge._from for edge in self.edges])
+    states = []
+    for edge in edges:
+      states.append(edge._from)
+      states.append(edge._to)
+    self.states = set(states)
+
 
   def add_state(self, state: NTerm):
     self.states.add(state)
